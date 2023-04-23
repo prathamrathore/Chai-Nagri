@@ -1,14 +1,38 @@
 <% layout('layouts/boilerplate')%>
 
-<form action="/chainagri" method="POST">
-  <div>
-    <label for="title">Title</label>
-    <input type="text" id="title" name="chainagri[title]" />
-  </div>
-  <div>
-    <label for="location">Location</label>
-    <input type="text" id="location" name="chainagri[location]" />
-  </div>
-  <button>Add Tea Stall</button>
-</form>
-<a href="/chainagri">All Tea Stalls</a>
+<div class="row">
+    <h1 class="text-center">New Tea Stall</h1>
+    <div class="col-6 offset-3">
+        <form action="/chainagri" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="chainagri[title]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="chainagri[location]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="chainagri[image]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Tea Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">&#8377;</span>
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
+                        aria-describedby="price-label" name="chainagri[price]">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="chainagri[description]"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Tea Stall</button>
+            </div>
+        </form>
+        <a href="/chainagri">All Tea Stalls</a>
+    </div>
+</div>
