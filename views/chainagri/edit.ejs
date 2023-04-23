@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate')%>
+<h1>Edit Tea Stalls</h1>
+<form action="/chainagri/<%=chainagri._id%>?_method=PUT" method="POST">
+  <div>
+    <label for="title">Title</label>
+    <input
+      type="text"
+      id="title"
+      name="chainagri[title]"
+      value="<%=chainagri.title %>"
+    />
+  </div>
+  <div>
+    <label for="location">Location</label>
+    <input
+      type="text"
+      id="location"
+      name="chainagri[location]"
+      value="<%= chainagri.location%>"
+    />
+  </div>
+  <button>Update Tea Stalls</button>
+</form>
+<a href="/chainagri/<%= chainagri._id%>">Back To Tea Stalls</a>

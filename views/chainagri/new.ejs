@@ -1,0 +1,14 @@
+<% layout('layouts/boilerplate')%>
+
+<form action="/chainagri" method="POST">
+  <div>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="chainagri[title]" />
+  </div>
+  <div>
+    <label for="location">Location</label>
+    <input type="text" id="location" name="chainagri[location]" />
+  </div>
+  <button>Add Tea Stall</button>
+</form>
+<a href="/chainagri">All Tea Stalls</a>
