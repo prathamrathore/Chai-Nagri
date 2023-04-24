@@ -2,41 +2,56 @@
 <div class="row">
     <h1 class="text-center">Edit Tea Stall</h1>
     <div class="col-6 offset-3">
-        <form action="/chainagri/<%=chainagri._id%>?_method=PUT" method="POST">
+        <form action="/chainagri/<%=chainagri._id%>?_method=PUT" method="POST" class="validated-form" novalidate>
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="chainagri[title]"
-                    value="<%=chainagri.title %>">
+                    value="<%=chainagri.title %>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
                 <input class="form-control" type="text" id="location" name="chainagri[location]"
-                    value="<%=chainagri.location %>">
+                    value="<%=chainagri.location %>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
                 <input class="form-control" type="text" id="image" name="chainagri[image]"
-                    value="<%=chainagri.image %>">
+                    value="<%=chainagri.image %>"required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Tea Price</label>
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">&#8377;</span>
                     <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
-                        aria-describedby="price-label" name="chainagri[price]" value="<%=chainagri.price %>">
-                </div>
+                        aria-describedby="price-label" name="chainagri[price]" value="<%=chainagri.price %>"required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
                 <textarea class="form-control" type="text" id="description"
-                    name="chainagri[description]"><%= chainagri.description%></textarea>
+                    name="chainagri[description]" required><%= chainagri.description%> </textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">Update Tea Stall</button>
             </div>
         </form>
-        <a href="/chainagri/<%= chainagri._id%>">Back To Tea Stalls</a>
+        <a href="/chainagri/<%= chainagri._id%>">Back to Tea Stall</a>
 
     </div>
 </div>
