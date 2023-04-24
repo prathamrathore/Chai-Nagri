@@ -4,8 +4,10 @@ const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const mongoose = require('mongoose');
+const { campgroundSchema, reviewSchema } = require('./schemas.js');
 const methodOverride = require('method-override');
 const Chainagri = require('./models/chainagri');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/chai-nagri', {
     useNewUrlParser: true,
@@ -28,6 +30,26 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+const validateCampground = (req, res, next) => {
+    const { error } = chainagriSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
 
 app.get('/', (req, res) => {
     res.render('home')
@@ -40,7 +62,7 @@ app.get('/chainagri/new', (req, res) => {
     res.render('chainagri/new');
 })
 
-app.post('/chainagri', catchAsync(async (req, res) => {
+app.post('/chainagri',validateCampground, catchAsync(async (req, res) => {
     const chainagri = new Chainagri(req.body.chainagri);
     await chainagri.save();
     console.log(req.body)
@@ -48,7 +70,7 @@ app.post('/chainagri', catchAsync(async (req, res) => {
 }))
 
 app.get('/chainagri/:id', catchAsync(async (req, res,) => {
-    const chainagri = await Chainagri.findById(req.params.id)
+    const chainagri = await Chainagri.findById(req.params.id).populate('reviews');
     res.render('chainagri/show', { chainagri });
 }));
 
@@ -57,7 +79,7 @@ app.get('/chainagri/:id/edit', catchAsync(async (req, res) => {
     res.render('chainagri/edit', { chainagri });
 }))
 
-app.put('/chainagri/:id', catchAsync(async (req, res) => {
+app.put('/chainagri/:id',validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     const chainagri = await Chainagri.findByIdAndUpdate(id, { ...req.body.chainagri });
     res.redirect(`/chainagri/${chainagri._id}`)
@@ -67,6 +89,22 @@ app.delete('/chainagri/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Chainagri.findByIdAndDelete(id);
     res.redirect('/chainagri');
+}))
+
+app.post('/chainagri/:id/reviews', validateReview, catchAsync(async (req, res) => {
+    const chainagri = await Chainagri.findById(req.params.id);
+    const review = new Review(req.body.review);
+    chainagri.reviews.push(review);
+    await review.save();
+    await chainagri.save();
+    res.redirect(`/chainagri/${chainagri._id}`);
+}))
+
+app.delete('/chainagri/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Chainagri.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/chainagri/${id}`);
 }))
 
 app.all('*', (req, res, next) => {
