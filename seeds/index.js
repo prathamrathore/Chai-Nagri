@@ -5,7 +5,6 @@ const Chainagri = require('../models/chainagri');
 
 mongoose.connect('mongodb://localhost:27017/chai-nagri', {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true
 });
 
@@ -25,6 +24,7 @@ const seedDB = async () => {
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10;
         const stalls = new Chainagri({
+            author: '6448267ac2873dcb2c46c8a9',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             image: `${sample(images)}`,

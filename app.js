@@ -4,16 +4,19 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const reviews = require('./routes/reviews');
-const chainagri = require('./routes/chainagri');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
+const reviewsRoutes = require('./routes/reviews');
+const chainagriRoutes = require('./routes/chainagri');
+const userRoutes = require('./routes/users');
 
 mongoose.connect('mongodb://localhost:27017/chai-nagri', {
     useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
+    useUnifiedTopology: true
 });
 
 const db = mongoose.connection;
@@ -45,14 +48,23 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
 
-app.use('/chainagri', chainagri)
-app.use('/chainagri/:id/reviews', reviews)
+app.use('/', userRoutes);
+app.use('/chainagri', chainagriRoutes)
+app.use('/chainagri/:id/reviews', reviewsRoutes)
 
 
 
