@@ -2,7 +2,7 @@ mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v12', // stylesheet location
-    center: [74.5,40], // starting position [lng, lat]
+    center: chainagri.geometry.coordinates, // starting position [lng, lat]
     zoom: 10 // starting zoom
 });
 
