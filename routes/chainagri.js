@@ -8,18 +8,17 @@ const chainagri = require('../controllers/chainagri');
 
 
 
+router.route('/')
+    .get(catchAsync(chainagri.index))
+    .post(isLoggedIn,validateChainagri, catchAsync(chainagri.createChainagri))
 
-router.get('/', catchAsync(chainagri.index));
 router.get('/new',isLoggedIn, chainagri.renderNewForm)
 
-router.post('/',isLoggedIn,validateChainagri, catchAsync(chainagri.createChainagri))
-
-router.get('/:id', catchAsync(chainagri.showChainagri));
+router.route('/:id')
+    .get( catchAsync(chainagri.showChainagri))
+    .put(isLoggedIn,isAuthor,validateChainagri, catchAsync(chainagri.updateChainagri))
+    .delete(isLoggedIn,isAuthor,catchAsync(chainagri.deleteChainagri))
 
 router.get('/:id/edit',isLoggedIn,isAuthor,catchAsync(chainagri.renderEditForm))
-
-router.put('/:id',isLoggedIn,isAuthor,validateChainagri, catchAsync(chainagri.updateChainagri));
-
-router.delete('/:id',isLoggedIn,isAuthor,catchAsync(chainagri.deleteChainagri))
 
 module.exports = router;
