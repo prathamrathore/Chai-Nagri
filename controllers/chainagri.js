@@ -1,4 +1,8 @@
 const Chainagri = require("../models/chainagri");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
   const chainagri = await Chainagri.find({});
@@ -10,10 +14,16 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createChainagri = async (req, res) => {
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.chainagri.location,
+        limit: 1
+    }).send()
     const chainagri = new Chainagri(req.body.chainagri);
+    chainagri.geometry = geoData.body.features[0].geometry;
+    chainagri.image = req.files.map(f => ({ url: f.path, filename: f.filename }));
     chainagri.author = req.user._id;
     await chainagri.save();
-    console.log(req.body)
+    console.log(chainagri)
     req.flash('success', 'Successfully made a new Tea Stall!');
     res.redirect(`/chainagri/${chainagri._id}`)
 }
@@ -44,6 +54,15 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateChainagri = async (req, res) => {
     const { id } = req.params;
     const chainagri = await Chainagri.findByIdAndUpdate(id, { ...req.body.chainagri });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    chainagri.image.push(...imgs);
+    await chainagri.save();
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await chainagri.updateOne({ $pull: { image: { filename: { $in: req.body.deleteImages } } } })
+    }
     req.flash('success', 'Successfully updated Tea Stall!');
     res.redirect(`/chainagri/${chainagri._id}`)
 }
