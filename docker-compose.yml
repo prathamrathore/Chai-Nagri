@@ -7,8 +7,8 @@ services:
            
             ports:
               - "3000:3000"
-            links:
-              - mongo
+ #           links:
+  #            - mongo
 #        mongo:
  #             container_name: mongo
  #             image: mongo
