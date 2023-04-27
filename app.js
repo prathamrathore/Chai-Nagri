@@ -49,7 +49,7 @@ app.use(mongoSanitize({
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
 const store = new MongoDBStore({
-    url: 'mongodb://localhost:27017/chai-nagri',
+    url: dbUrl,
     secret,
     touchAfter: 24 * 60 * 60
 });
