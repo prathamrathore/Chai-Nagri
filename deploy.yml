@@ -1,4 +1,3 @@
-	---
 - name: Pull and Run docker image
   hosts: all
   become: yes
