@@ -6,5 +6,9 @@
       copy:
         src: ./docker-compose.yml
         dest: ./
-    - name: name it
+    
+    - name: Pull the Docker images specifed in docker-compose
+      shell: docker-compose pull
+    
+    - name: Run docker image
       shell: docker-compose up -d
