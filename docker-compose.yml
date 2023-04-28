@@ -1,10 +1,9 @@
 version: "3"
 services:
-        chai-nagri:
+        chai_nagri:
             container_name: chai-nagri
-            image: prathamrathore/chai-nagri
+            image: prathamrathore/chai_nagri
             restart: always
-           
             ports:
               - "3000:3000"
  #           links:
