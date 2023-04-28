@@ -23,7 +23,7 @@ const MongoDBStore = require("connect-mongo")(session);
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/chai-nagri';
 // 'mongodb://localhost:27017/chai-nagri'
 // 'mongodb://mongo:27017/chai-nagri'
-mongoose.connect('mongodb://mongo:27017/chai-nagri', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
