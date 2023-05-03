@@ -1,7 +1,7 @@
 body {
     height: 100vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
-    url("https://scontent.fblr18-1.fna.fbcdn.net/v/t39.30808-6/300592345_457398613071291_2687733771777300627_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=wr2BL9W0KX0AX9fhx2t&_nc_ht=scontent.fblr18-1.fna&oh=00_AfACyjbAPYcbxdAazY72ViT2B5kcJivSUcOst1KXKUQKzA&oe=644E86AD");
+    url("https://res.cloudinary.com/dbdcsgrp9/image/upload/v1683097900/ChaiNagri/chainagri_bc0jbz.jpg");
     background-size: cover;
     background-position: center;
     text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
