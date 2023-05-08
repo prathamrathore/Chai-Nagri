@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const logger = require("../loggerFile");
+const winston = require("winston");
 
 module.exports.renderRegister = (req, res) => {
     res.render("users/register");
@@ -13,6 +15,7 @@ module.exports.register = async (req, res, next) => {
             if (err) return next(err);
             req.flash('success', 'Welcome to Chai nagri!');
             res.redirect('/chainagri');
+            logger.info('New User Registered')
         })
     } catch (e) {
         req.flash('error', e.message);
@@ -29,6 +32,7 @@ module.exports.login = (req, res) => {
     const redirectUrl = res.locals.returnTo || '/chainagri';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
+    logger.info('New User Logged in Successfully')
 }
 
 module.exports.logout = (req, res, next) => {
@@ -36,5 +40,6 @@ module.exports.logout = (req, res, next) => {
       if (err) { return next(err); }
       req.flash('success', "Goodbye!");
       res.redirect('/chainagri');
+      logger.info('New User Logged out Successfully')
     });
   }
