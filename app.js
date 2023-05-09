@@ -95,7 +95,7 @@ app.use('/chainagri/:id/reviews', reviewsRoutes)
 
 
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     res.render('home')
 });
 
@@ -113,6 +113,8 @@ app.use((err, req, res, next) => {
 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log('Serving on port 3000')
 })
+
+module.exports = server;
