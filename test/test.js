@@ -23,10 +23,6 @@ describe("SERVER REACHABI0LITY TEST", () => {
     await request(app)
       .get("/")
       .expect(200)
-      // .end((err, res) => {
-      //   if (err) return done(err);
-      //   return done();
-      // });
       
   },100000);
   test("GET /wrongendpoint", async () => {
@@ -34,10 +30,6 @@ describe("SERVER REACHABI0LITY TEST", () => {
       .get("/wrongendpoint")
       .send()
       .expect(404)
-      // .then((res) => {
-      //   done();
-      // })
-      // .catch(done);
      
   },10000);
 
