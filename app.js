@@ -20,8 +20,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 // const dbUrl = process.env.DB_URL;
 const MongoDBStore = require("connect-mongo")(session);
 
-// const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/chai-nagri';
-let dbUrl = 'mongodb://localhost:27017/chai-nagri';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/chai-nagri';
+// let dbUrl = 'mongodb://localhost:27017/chai-nagri';
 
 if(process.env.docker !== undefined && process.env.docker === 'true')
     dbUrl = 'mongodb://mongo:27017/chai-nagri';
